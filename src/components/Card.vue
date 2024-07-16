@@ -5,8 +5,12 @@ defineProps({
   title: String,
   imgUrl: String,
   price: Number,
-  isFavorite:Boolean
+  isFavorite:Boolean,
+  isAdded:Boolean,
+  onClickAdd:Function,
+  onClickFavorite:Function
 });
+
 
 
 </script>
@@ -17,7 +21,10 @@ defineProps({
         class="relative bg-white m-10 border border-slate-100 rounded-3xl p-8 cursor-pointer transition hover:-translate-y-2 hover:shadow-2xl"
       >
         
-          <img class="absolute top-8 left-8" src="/like-2.svg" alt="like2" />
+          
+          <img @click="onClickFavorite" class="absolute top-8 left-8"  :src="isFavorite ? '/like-2.svg': '/like-1.svg'" alt="like2" />
+
+
           <img :src="imgUrl" alt="sneakers" />
           <p class="mt-2">{{title}}</p>
         
@@ -25,9 +32,11 @@ defineProps({
         <div class="flex justify-between mt-5">
           <div class="flex flex-col">
             <span class="text-slate=400">Цена:</span>
-            <b>{{ price }} руб.</b>
+            <b>{{ price }} ₽</b>
           </div>
-          <img src="/plus.svg" alt="plus" />
+
+          <img @click="onClickAdd" :src="!isAdded ? '/plus.svg': '/checked.svg'" alt="plus" />
+          
         </div>
       </div>
     

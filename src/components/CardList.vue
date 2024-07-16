@@ -5,27 +5,12 @@
       title="Мужские кроссовки Nike Blazer Mid Suede"
       imgUrl="/sneakers/sneakers-1.jpg"
       :price="1111"
+      :isAdded="false"
+      :isFavorite="false"
+      :onClickAdd="onClickAdd"
+      :onClickFavorite="onClickFavorite"
     />
-    <Card
-      title="Мужские кроссовки Nike Blazer Mid Suede"
-      imgUrl="/sneakers/sneakers-1.jpg"
-      :price="1111"
-    />
-    <Card
-      title="Мужские кроссовки Nike Blazer Mid Suede"
-      imgUrl="/sneakers/sneakers-1.jpg"
-      :price="1111"
-    />
-    <Card
-      title="Мужские кроссовки Nike Blazer Mid Suede"
-      imgUrl="/sneakers/sneakers-1.jpg"
-      :price="1111"
-    />
-    <Card
-      title="Мужские кроссовки Nike Blazer Mid Suede"
-      imgUrl="/sneakers/sneakers-1.jpg"
-      :price="1111"
-    />
+
   </div>
 </template>
 <script setup>
@@ -33,9 +18,12 @@ import Card from './Card.vue'
 
 
 
+const onClickAdd=()=>{
+  console.log(1)
+}
+const onClickFavorite=()=>{
+  console.log(1)
+}
 
 
 </script>
-<style >
-  
-</style>
