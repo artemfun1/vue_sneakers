@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+html{
+  height:100% ;
+}
+
+
 body{
-  background-color: #78c6a8;
+background-color: #78c6a8;
+height: 100%;
+
+
+}
+#app {
+/*   
+  height: 100%; */
+
+  overflow: auto;
 }
