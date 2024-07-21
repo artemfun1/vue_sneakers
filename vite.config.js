@@ -6,7 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 
 export default defineConfig({
-  base: '/vue_sneakers/',
+  base: '/',
   plugins: [
     vue(),
     vueJsx(),
