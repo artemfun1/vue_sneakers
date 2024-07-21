@@ -1,1 +1,0 @@
-export const publicPath = '/name-of-your-project/'
