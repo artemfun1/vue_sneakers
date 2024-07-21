@@ -11,19 +11,18 @@
       :isFavorite="el.isFavorite"
       :onClickAdd="() => emit('addToCart', el)"
       :onClickFavorite="() => emit('addToFavorites', el)"
+      :isBtnFav="isBtnFav"
     />
   </div>
 </template>
 
 <script setup>
-
 import Card from './Card.vue'
 
 defineProps({
-  items: Array
+  items: Array,
+  isBtnFav: Boolean
 })
-
-
 
 const emit = defineEmits(['addToFavorites', 'addToCart'])
 </script>

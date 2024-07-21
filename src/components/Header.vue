@@ -32,7 +32,6 @@
   </header>
 </template>
 <script setup>
-
 defineProps({
   totalPrice: Number
 })

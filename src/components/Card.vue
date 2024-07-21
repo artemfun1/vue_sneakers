@@ -7,7 +7,8 @@ defineProps({
   isFavorite: Boolean,
   isAdded: Boolean,
   onClickAdd: Function,
-  onClickFavorite: Function
+  onClickFavorite: Function,
+  isBtnFav: Boolean
 })
 </script>
 
@@ -16,6 +17,7 @@ defineProps({
     class="relative bg-white border border-slate-100 rounded-3xl p-8 cursor-potinter transition hover:-translate-y-2 hover:shadow-2xl"
   >
     <img
+      v-if="isBtnFav"
       @click="onClickFavorite"
       class="absolute top-8 left-8"
       :src="isFavorite ? '/like-2.svg' : '/like-1.svg'"

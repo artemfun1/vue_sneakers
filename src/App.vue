@@ -5,34 +5,28 @@
     <Header :total-price="cartPrise" @open-drawer="openDriver" />
 
     <div class="p-10">
-
-<router-view></router-view>
-
-  
+      <router-view></router-view>
     </div>
 
     <button
-      @click="clearOrder"
+      @click="clearAll"
       class="border-8 m-6 cursor-pointer active:bg-slate-500 hover:bg-slate-400"
     >
-      Техническая кнопка - очистить заказы пользователя на сервере и localStorage
+      Техническая кнопка - очистка на сервере заказы/закладки и localStorage
     </button>
   </div>
 </template>
 
-
-
-
 <script setup>
 import axios from 'axios'
+import debounce from 'lodash.debounce'
 import { computed, onMounted, provide, reactive, ref, watch } from 'vue'
 import Drawer from './components/Cart/Drawer.vue'
 import Header from './components/Header.vue'
 
-
-
 const items = ref([])
 const cart = ref([])
+const favorites = ref([])
 const cartPrise = computed(() => cart.value.reduce((acc, item) => acc + item.price, 0))
 const isDisabledBuyBtn = ref(true)
 const isCreatingOrder = ref(false)
@@ -46,9 +40,10 @@ const filters = reactive({
 const onChangeSelect = (e) => {
   filters.sortBy = e.target.value
 }
-const onChangeInput = (e) => {
+
+const onChangeInput = debounce((e) => {
   filters.searchQuery = e.target.value
-}
+}, 500)
 
 const fetchItems = async () => {
   try {
@@ -95,10 +90,37 @@ const fetchFavorites = async () => {
   }
 }
 
+const fetchFavoritesForPage = async () => {
+  try {
+    const params = {
+      sortBy: filters.sortBy
+    }
+
+    if (filters.searchQuery) {
+      params.title = `*${filters.searchQuery}*`
+    }
+
+    const { data } = await axios.get(`https://00d0e9355f119a94.mokky.dev/favorites`, {
+      params
+    })
+
+    data.forEach((item) => {
+      item.isFavorite = true
+    })
+
+    favorites.value = data
+
+    console.log(favorites.value)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 const addToFavorites = async (item) => {
   try {
     if (!item.isFavorite) {
       const obj = {
+        ...item,
         parentId: item.id
       }
 
@@ -128,23 +150,34 @@ const addToCart = (item) => {
 
 const createOrder = async () => {
   try {
+    isCreatingOrder.value = true
+
     const { data } = await axios.post('https://00d0e9355f119a94.mokky.dev/orders', {
       items: cart.value,
       totalPrice: cartPrise.value
     })
+
+    await axios.patch('https://00d0e9355f119a94.mokky.dev/favorites', [])
+
+    favorites.value = []
+
     cart.value.forEach((item) => (item.isAdded = false))
+
     cart.value = []
-    isCreatingOrder.value = true
+
     return data
   } catch (error) {
     console.log(error)
   }
 }
 
-const clearOrder = async () => {
+const clearAll = async () => {
   try {
     isCreatingOrder.value = false
     await axios.patch('https://00d0e9355f119a94.mokky.dev/orders', [])
+    await axios.patch('https://00d0e9355f119a94.mokky.dev/favorites', [])
+    cart.value = []
+    fetchItems()
   } catch (error) {
     console.log(error)
   }
@@ -161,6 +194,7 @@ onMounted(async () => {
     isAdded: cart.value.some((cartItem) => cartItem.id === item.id)
   }))
   await fetchFavorites()
+  await fetchFavoritesForPage()
 })
 
 const openDriver = () => {
@@ -168,7 +202,7 @@ const openDriver = () => {
   isCreatingOrder.value = false
 }
 
-watch(filters, fetchItems)
+watch(filters, fetchItems, fetchFavoritesForPage)
 watch(
   cart,
   () => {
@@ -197,7 +231,9 @@ provide('cart', {
   isDisabledBuyBtn,
   isCreatingOrder
 })
-provide('home',{
+provide('home', {
+  fetchFavoritesForPage,
+  favorites,
   addToCart,
   addToFavorites,
   items,
@@ -205,4 +241,3 @@ provide('home',{
   onChangeSelect
 })
 </script>
-

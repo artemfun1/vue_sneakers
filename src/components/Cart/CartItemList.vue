@@ -1,7 +1,5 @@
 <template>
   <div v-auto-animate class="flex flex-col gap-4 h-full overflow-scroll">
-
-    
     <CartItem
       v-for="el in cart"
       :id="el.id"

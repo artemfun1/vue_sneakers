@@ -1,19 +1,38 @@
 <script setup>
-import InfoBlock from '../components/Cart/InfoBlock.vue'
+import CardList from '@/components/CardList.vue'
+import InfoBlock from '@/components/Cart/InfoBlock.vue'
 
+import { inject, onMounted } from 'vue'
 
+const {
+  favorites,
+  addToCart,
+  addToFavorites,
 
-import { useRouter } from 'vue-router'
+  fetchFavoritesForPage
+} = inject('home')
 
-const router = useRouter()
-console.log(router.currentRoute.value.fullPath)
-router.push('')
-
-
+onMounted(() => {
+  fetchFavoritesForPage()
+})
 </script>
 
 <template>
- 
- <InfoBlock image-url="/package-icon.png" title="Корзина пустая" description="Добавьте хотя бы одну пару кроссовок, чтоб сделать заказ" btn-title="Вернуться назад"/>
+  <div v-if="favorites.length > 0">
+    <CardList
+      :is-btn-fav="false"
+      :items="favorites"
+      @add-to-cart="addToCart"
+      @add-to-favorites="addToFavorites"
+    />
+  </div>
 
+  <InfoBlock
+    v-else
+    image-url="/emoji-2.png"
+    title="Закладок нет"
+    description="Добавьте хотя бы одну пару кроссовок в закладки"
+    :isBtn="false"
+    btn-title="Вернуться назад"
+  />
 </template>
