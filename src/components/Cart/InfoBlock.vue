@@ -13,7 +13,7 @@ const { openDriver } = inject('cart')
 
 <template>
   <div class="h-full flex flex-col justify-center items-center text-center">
-    <img height="100" width="100" :src="imageUrl" alt="infoImage" />
+    <img height="100" width="100" :src="'/vue_sneakers'+imageUrl" alt="infoImage" />
     <h2 class="mt-4 text-2xl font-medium">{{ title }}</h2>
     <p class="text-slate-400 mt-4">{{ description }}</p>
 

@@ -24,6 +24,7 @@ onMounted(() => {
       :items="favorites"
       @add-to-cart="addToCart"
       @add-to-favorites="addToFavorites"
+      
     />
   </div>
 

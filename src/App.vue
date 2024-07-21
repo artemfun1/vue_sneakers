@@ -7,13 +7,6 @@
     <div class="p-10">
       <router-view></router-view>
     </div>
-
-    <button
-      @click="clearAll"
-      class="border-8 m-6 cursor-pointer active:bg-slate-500 hover:bg-slate-400"
-    >
-      Техническая кнопка - очистка на сервере заказы/закладки и localStorage
-    </button>
   </div>
 </template>
 
@@ -162,9 +155,9 @@ const createOrder = async () => {
     favorites.value = []
 
     cart.value.forEach((item) => (item.isAdded = false))
-
+    cart.value.forEach((item) => (item.isFavorite = false))
     cart.value = []
-
+    fetchItems()
     return data
   } catch (error) {
     console.log(error)
@@ -233,6 +226,7 @@ provide('cart', {
 })
 provide('home', {
   fetchFavoritesForPage,
+  clearAll,
   favorites,
   addToCart,
   addToFavorites,

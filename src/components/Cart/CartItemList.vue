@@ -5,7 +5,7 @@
       :id="el.id"
       :key="el.id"
       :title="el.title"
-      :imgUrl="el.imageUrl"
+      :imgUrl="'/vue_sneakers'+el.imageUrl"
       :price="el.price"
       :item="el"
     />
