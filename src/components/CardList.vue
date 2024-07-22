@@ -17,12 +17,15 @@
 </template>
 
 <script setup>
+
 import Card from './Card.vue'
 
 defineProps({
   items: Array,
-  isBtnFav: Boolean
+  isBtnFav:Boolean
 })
+
+
 
 const emit = defineEmits(['addToFavorites', 'addToCart'])
 </script>

@@ -16,6 +16,15 @@ import debounce from 'lodash.debounce'
 import { computed, onMounted, provide, reactive, ref, watch } from 'vue'
 import Drawer from './components/Cart/Drawer.vue'
 import Header from './components/Header.vue'
+import { useItemsStore } from './store/itemsStore'
+import { storeToRefs } from 'pinia'
+
+
+const store = useItemsStore()
+const fetchData = store.fetchData
+const {  ItemsData  } = storeToRefs(store)
+
+
 
 const items = ref([])
 const cart = ref([])
@@ -48,10 +57,9 @@ const fetchItems = async () => {
       params.title = `*${filters.searchQuery}*`
     }
 
-    const { data } = await axios.get(`https://00d0e9355f119a94.mokky.dev/items`, {
-      params
-    })
-    items.value = [...data].map((obj) => ({
+    await fetchData(params)
+     
+    items.value = [...ItemsData.value].map((obj) => ({
       ...obj,
       isFavorite: false,
       favoriteId: null,
@@ -102,8 +110,6 @@ const fetchFavoritesForPage = async () => {
     })
 
     favorites.value = data
-
-    console.log(favorites.value)
   } catch (err) {
     console.log(err)
   }

@@ -1,6 +1,4 @@
 <script setup>
-
-
 defineProps({
   id: Number,
   title: String,
@@ -12,8 +10,6 @@ defineProps({
   onClickFavorite: Function,
   isBtnFav: Boolean
 })
-
-
 </script>
 
 <template>
@@ -28,7 +24,8 @@ defineProps({
       alt="like2"
     />
 
-    <img :src="'/vue_sneakers'+imgUrl" alt="sneakers" />
+    <img :src="'/vue_sneakers' + imgUrl" alt="sneakers" />
+
     <p class="mt-2">{{ title }}</p>
 
     <div class="flex justify-between mt-5">
@@ -37,7 +34,11 @@ defineProps({
         <b>{{ price }} ₽</b>
       </div>
 
-      <img @click="onClickAdd" :src="!isAdded ? '/vue_sneakers/plus.svg' : '/vue_sneakers/checked.svg'" alt="plus" />
+      <img
+        @click="onClickAdd"
+        :src="!isAdded ? '/vue_sneakers/plus.svg' : '/vue_sneakers/checked.svg'"
+        alt="plus"
+      />
     </div>
   </div>
 </template>
